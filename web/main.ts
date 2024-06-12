@@ -34,4 +34,6 @@ router.get("/healthz", async (context) => {
 });
 
 console.log(`HTTP webserver running. Access it at: http://localhost:${PORT}/`);
+app.use(router.routes())
+app.use(router.allowedMethods());
 await app.listen({ port: PORT });
