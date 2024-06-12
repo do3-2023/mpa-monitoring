@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: mpa-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: db
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+        - name: db
+          image: postgres:15
+          imagePullPolicy: Always
+          ports:
+            - name: db
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_DB
+              value: tp
+            - name: POSTGRES_USER
+              value: myuser
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: password
+          readinessProbe:
+            exec:
+              command: ['psql', '-w', '-U', 'myuser', '-d', 'tp']
+            initialDelaySeconds: 15
+            timeoutSeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ['psql', '-w', '-U', 'myuser', '-d', 'tp']
+            initialDelaySeconds: 30
+            timeoutSeconds: 3
+            periodSeconds: 10

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: mpa-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: web
+    spec:
+      containers:
+        - image: ghcr.io/do3-2023/mpa-kube/web:v0.2
+          imagePullPolicy: Always
+          name: web
+          env:
+            - name: API_URL
+              value: "http://api.mpa-backend.svc.cluster.local:3000"
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 3
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 3
+            failureThreshold: 10
