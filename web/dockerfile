@@ -1,11 +1,20 @@
-FROM denoland/deno
+# Stage 1: Build the Vite application
+FROM node:18-alpine AS builder
 
-EXPOSE 8000
+# Set working directory
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Run the application
+FROM node:18-alpine as runner
 
 WORKDIR /app
 
-ADD . /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY . .
 
-RUN deno cache main.ts
-
-CMD ["run", "--allow-net", "main.ts"]
+CMD ["npm", "run", "dev"]

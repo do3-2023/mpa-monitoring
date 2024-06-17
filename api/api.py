@@ -2,8 +2,10 @@ import os
 import json
 import psycopg2
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 conn = 0
 
@@ -67,7 +69,7 @@ def getAllPersons():
         persons = cur.fetchall()
     except Exception as err:
         return str(err), 500
-    return None, 200
+    return json.dumps(persons), 200
 
 @app.route("/person", methods = ["POST"])
 def insertPerson():
@@ -76,7 +78,7 @@ def insertPerson():
         cur.execute(f"INSERT INTO person(last_name, phone_number, location) VALUES {person.get('last_name'), person.get('phone_number'), person.get('location')}")
     except Exception as err:
         return str(err), 500
-    return json.dumps(""), 200
+    return json.dumps("Ok"), 200
 
 
 if __name__ == '__main__':
