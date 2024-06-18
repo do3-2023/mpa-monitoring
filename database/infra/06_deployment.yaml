@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: db
   namespace: mpa-database
@@ -8,16 +8,18 @@ spec:
   selector:
     matchLabels:
       name: db
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
   template:
     metadata:
       labels:
         name: db
     spec:
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pvc
+        - name: db-init
+          configMap:
+            name: db-cm
       containers:
         - name: db
           image: postgres:15
@@ -36,6 +38,11 @@ spec:
                 secretKeyRef:
                   name: db-secrets
                   key: password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-storage
+            - mountPath: /docker-entrypoint-initdb.d
+              name: db-init
           readinessProbe:
             exec:
               command: ['psql', '-w', '-U', 'myuser', '-d', 'tp']
