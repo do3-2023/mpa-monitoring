@@ -35,7 +35,6 @@ export default {
 <form v-on:submit.prevent="addPerson">
   <p>Last name: <input type="text" required v-model="last_name"></p>
   <p>Phone number: <input type="text" required v-model="phone_number"></p>
-  <p>Location: <input type="text" required v-model="location"></p>
   <button type="submit" @click="addPerson">Submit</button>
 </form>
 

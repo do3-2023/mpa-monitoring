@@ -13,7 +13,7 @@ export async function getAllPersons() {
 }
 
 
-export async function addNewPerson(person: {last_name: string, phone_number: string, location: string}) {
+export async function addNewPerson(person: {last_name: string, phone_number: string}) {
     const url = servurl + "/person"
     let fetchResult = await fetch(url, {
         method: 'POST',

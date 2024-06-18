@@ -75,7 +75,7 @@ def getAllPersons():
 def insertPerson():
     try:
         person = request.json
-        cur.execute(f"INSERT INTO person(last_name, phone_number, location) VALUES {person.get('last_name'), person.get('phone_number'), person.get('location')}")
+        cur.execute(f"INSERT INTO person(last_name, phone_number) VALUES {person.get('last_name'), person.get('phone_number')}")
     except Exception as err:
         return str(err), 500
     return json.dumps("Ok"), 200
