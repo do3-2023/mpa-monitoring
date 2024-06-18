@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/do3-2023/mpa-monitoring/api:v3.0
+          image: ghcr.io/do3-2023/mpa-monitoring/api:v4.0
           imagePullPolicy: Always
           env:
             - name: POSTGRES_DB
