@@ -1,4 +1,4 @@
-const servurl = "http://localhost:3000";
+let servurl = import.meta.env.VITE_API_ENDPOINT
 
 export async function getAllPersons() {
     const url = servurl + "/persons"
