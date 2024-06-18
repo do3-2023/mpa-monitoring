@@ -36,4 +36,4 @@ jobs:
           context: ./${{ matrix.image }}
           file: ./${{ matrix.image }}/dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}:${{ github.ref_name }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ github.repository }}/${{ matrix.image }}:${{ github.ref_name }}
