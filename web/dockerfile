@@ -6,6 +6,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
+
 # Install dependencies
 RUN npm install --production
 
@@ -13,6 +14,8 @@ RUN npm install --production
 FROM node:18-alpine as runner
 
 WORKDIR /app
+
+RUN npm install vite
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY . .
