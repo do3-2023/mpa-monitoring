@@ -19,7 +19,7 @@ spec:
         name: web
     spec:
       containers:
-        - image: ghcr.io/do3-2023/mpa-kube/web:v1
+        - image: ghcr.io/do3-2023/mpa-monitoring/web:v1
           imagePullPolicy: Always
           name: web
           env:
