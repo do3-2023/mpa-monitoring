@@ -32,14 +32,12 @@ export default {
                 <tr>
                     <th>Last name</th>
                     <th>Phone number</th>
-                    <th>Location</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="person in this.personList" :key="person.id">
                     <td>{{ person[0] }}</td>
                     <td>{{ person[1] }}</td>
-                    <td>{{ person[2] }}</td>
                 </tr>
             </tbody>
         </table>

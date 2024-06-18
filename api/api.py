@@ -65,7 +65,7 @@ def getWord():
 @app.route("/persons")
 def getAllPersons():
     try:
-        cur.execute("SELECT * FROM person")
+        cur.execute("SELECT last_name, phone_number FROM person")
         persons = cur.fetchall()
     except Exception as err:
         return str(err), 500

@@ -2,7 +2,7 @@ CREATE TABLE person (
     id            SERIAL NOT NULL PRIMARY KEY,
     last_name     TEXT NOT NULL,
     phone_number  TEXT NOT NULL,
-    location      TEXT NOT NULL
+    location      TEXT 
 );
 
 INSERT INTO person
