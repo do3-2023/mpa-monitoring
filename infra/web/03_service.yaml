@@ -5,12 +5,11 @@ metadata:
   namespace: mpa-frontend
 spec:
   ports:
-  - name: http
-    port: 8000
+  - name: httpweb
+    port: 8080
     protocol: TCP
-    targetPort: 8000
-    nodePort: 32100
+    targetPort: 8080
+    nodePort: 31000
   selector:
     name: web
-    app: web
   type: NodePort

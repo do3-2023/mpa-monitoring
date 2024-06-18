@@ -24,22 +24,22 @@ spec:
           name: web
           env:
             - name: VITE_API_ENDPOINT
-              value: "http://api.mpa-backend.svc.cluster.local:3000"
+              value: "http://162.38.112.168:32000"
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
               protocol: TCP
-              name: http
+              name: httpweb
           livenessProbe:
             httpGet:
-              path: /healthz
-              port: 8000
+              path: /
+              port: 8080
             initialDelaySeconds: 15
             periodSeconds: 3
             failureThreshold: 10
           readinessProbe:
             httpGet:
-              path: /healthz
-              port: 8000
+              path: /
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 3
             failureThreshold: 10
