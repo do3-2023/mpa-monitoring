@@ -1,0 +1,71 @@
+spin_manifest_version = 2
+
+[application]
+authors = ["MurielParaire <72733662+MurielParaire@users.noreply.github.com>"]
+description = ""
+name = "api"
+version = "0.1.0"
+
+[variables]
+postgres_user = { required = true }
+postgres_password = { required = true }
+postgres_db = { required = true }
+postgres_host = { required = true }
+
+[[trigger.http]]
+route = "/..."
+component = "api"
+
+[component.api]
+source = "app.wasm"
+[component.api.build]
+command = "componentize-py -w spin-http componentize app -o app.wasm"
+watch = ["*.py", "requirements.txt"]
+
+
+[[trigger.http]]
+route = "/healthz"
+component = "healthz"
+
+[component.healthz]
+source = "healthz/app.wasm"
+[component.healthz.build]
+command = "componentize-py -w spin-http componentize app -o app.wasm"
+workdir = "healthz"
+watch = ["*.py", "requirements.txt"]
+
+[[trigger.http]]
+route = "/persons"
+component = "list-persons"
+
+[component.list-persons]
+source = "list_persons/app.wasm"
+allowed_outbound_hosts = ["*://*:*"]
+
+[component.list-persons.build]
+command = "componentize-py -w spin-http componentize app -o app.wasm"
+workdir = "list_persons"
+watch = ["*.py", "requirements.txt"]
+
+[component.list-persons.variables]
+postgres_password = " {{ postgres_password }}"
+postgres_db = " {{ postgres_db }}"
+postgres_host = " {{ postgres_host }}"
+postgres_user = " {{ postgres_user }}"
+
+[[trigger.http]]
+route = "/person"
+component = "create-person"
+
+[component.create-person]
+source = "create_person/app.wasm"
+allowed_outbound_hosts = ["*://*:*"]
+[component.create-person.build]
+command = "componentize-py -w spin-http componentize app -o app.wasm"
+workdir = "create_person"
+watch = ["*.py", "requirements.txt"]
+[component.create-person.variables]
+postgres_password = " {{ postgres_password }}"
+postgres_db = " {{ postgres_db }}"
+postgres_host = " {{ postgres_host }}"
+postgres_user = " {{ postgres_user }}"
