@@ -1,54 +1,36 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: core.spinoperator.dev/v1alpha1
+kind: SpinApp
 metadata:
   name: api
   namespace: mpa-backend
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      name: api
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        name: api
-    spec:
-      containers:
-        - name: api
-          image: ghcr.io/do3-2023/mpa-monitoring/api:v4.0
-          imagePullPolicy: Always
-          env:
-            - name: POSTGRES_DB
-              value: tp
-            - name: POSTGRES_USER
-              value: myuser
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-secrets
-                  key: password
-            - name: POSTGRES_HOST
-              value: db.mpa-database.svc.cluster.local
-          ports:
-            - name: http
-              containerPort: 3000
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 3000
-            initialDelaySeconds: 15
-            timeoutSeconds: 3
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 3000
-            initialDelaySeconds: 30
-            timeoutSeconds: 3
-            periodSeconds: 10
+  executor: containerd-shim-spin
+  image: ghcr.io/do3-2023/do3-2023/mpa-monitoring/wasm:v5.0
+  checks:
+    liveness:
+      httpGet:
+        path: /healthz
+        httpHeaders: []
+      initialDelaySeconds: 15
+      timeoutSeconds: 3
+      periodSeconds: 10
+    readiness:
+      httpGet:
+        path: /healthz
+        httpHeaders: []
+      initialDelaySeconds: 30
+      timeoutSeconds: 3
+      periodSeconds: 10
+  variables:
+    - name: postgres_db
+      value: tp
+    - name: postgres_user
+      value: myuser
+    - name: postgres_password
+      valueFrom:
+        secretKeyRef:
+          name: db-secrets
+          key: password
+    - name: postgres_host
+      value: db.mpa-database.svc.cluster.local

@@ -5,7 +5,7 @@ CREATE TABLE person (
 );
 
 INSERT INTO person
-(last_name, phone_number, location)
+(last_name, phone_number)
 VALUES
-    ('John', '0702030405', 'Marseille'),
-    ('Doe', '0603040506', 'Montpellier');
+    ('John', '0702030405'),
+    ('Doe', '0603040506');
