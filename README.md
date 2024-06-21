@@ -30,9 +30,9 @@ kubectl apply -f web/
 
 # Access the application :
 
-You will need to forward the listening port of the web application to access it on [localhost:8000](http://localhost:8000).
+You will need to forward the listening port of the web application to access it on [localhost:8080](http://localhost:8080).
 ```bash
-kubectl port-forward $(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' ' -f 1) 8000:8000 -n mpa-frontend
+kubectl port-forward $(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' ' -f 1) 8080:8080 -n mpa-frontend
 ```
 
 The line `$(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' ' -f 1)` simply gets the ip of the first (and in this case only) pod.
