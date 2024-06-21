@@ -37,6 +37,7 @@ kubectl port-forward $(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' '
 
 The line `$(kubectl get pods -n mpa-frontend | tail -n 1 | cut -d ' ' -f 1)` simply gets the ip of the first (and in this case only) pod.
 
+You can also access the v1 at http://162.38.112.168:31000/
 
 # Feedback
 
